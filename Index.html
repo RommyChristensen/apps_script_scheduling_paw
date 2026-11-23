@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Volunteers · PAW AOG JKT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --ink-2: #2b2b2b;
+      --muted: #737373;
+      --line: #e7e7e7;
+      --soft: #f5f5f5;
+      --paper: #ffffff;
+      --gold: #c9a54b;
+      --gold-soft: #f8f2e2;
+      --radius: 18px;
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px -12px rgba(0,0,0,.12);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, select { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+
+    /* ---------- Header ---------- */
+    .hero {
+      background: var(--ink);
+      color: #fff;
+      padding: 28px 32px 84px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after { /* soft gold glow, very subtle */
+      content: ''; position: absolute; right: -120px; top: -160px;
+      width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,165,75,.22), transparent 65%);
+      pointer-events: none;
+    }
+    .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 1320px; margin: 0 auto; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; font-size: 13px; text-transform: uppercase; }
+    .brand-mark { width: 30px; height: 30px; border-radius: 9px; background: #fff; color: var(--ink); display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+    .brand-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); display: inline-block; margin: 0 2px 2px; }
+    .refresh {
+      border: 1px solid rgba(255,255,255,.22); background: transparent; color: #fff;
+      border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 600; display: inline-flex; gap: 8px; align-items: center;
+      transition: background .15s;
+    }
+    .refresh:hover { background: rgba(255,255,255,.08); }
+    .hero h1 { max-width: 1320px; margin: 28px auto 6px; font-size: clamp(30px, 5vw, 46px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+    .hero h1 em { font-style: normal; color: var(--gold); }  /* only the final dot */
+    .hero p { max-width: 1320px; margin: 0 auto; color: rgba(255,255,255,.62); font-size: 14px; }
+
+    /* ---------- Layout ---------- */
+    .wrap { max-width: 1320px; margin: -56px auto 0; padding: 0 32px 48px; position: relative; z-index: 1; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+    .stat { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
+    .stat-label { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+    .stat-value { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 4px; }
+    .stat-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .stat.accent { border-color: var(--ink); }
+    .stat.accent .stat-value::after { content: ''; display: inline-block; width: 8px; height: 8px; margin-left: 8px; border-radius: 50%; background: var(--gold); vertical-align: middle; }
+
+    .layout { display: grid; grid-template-columns: 270px 1fr; gap: 26px; align-items: start; }
+
+    /* ---------- Filters ---------- */
+    .filters { position: sticky; top: 16px; }
+    .filters-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; background: var(--paper); }
+    .filters-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .filters-head h2 { font-size: 15px; margin: 0; font-weight: 800; }
+    .link { background: none; border: 0; padding: 0; font-size: 12px; font-weight: 600; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+    .link:hover { color: var(--ink); }
+    .group { padding: 14px 0; border-top: 1px solid var(--line); }
+    .group:first-of-type { border-top: 0; }
+    .group-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      border: 1px solid var(--line); background: var(--paper); border-radius: 999px;
+      padding: 6px 11px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;
+      transition: border-color .15s, background .15s, color .15s;
+    }
+    .chip:hover { border-color: var(--ink); }
+    .chip .n { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .chip.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .chip.on .n { color: var(--gold); }
+    .chip.zero { opacity: .4; }
+
+    .mobile-toggle { display: none; }
+
+    /* ---------- Toolbar ---------- */
+    .toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+    .search { flex: 1; min-width: 220px; position: relative; }
+    .search input {
+      width: 100%; border: 1px solid var(--line); border-radius: 999px; padding: 12px 44px 12px 44px;
+      background: var(--soft); outline: none; font-size: 14px; transition: border-color .15s, background .15s;
+    }
+    .search input:focus { border-color: var(--ink); background: var(--paper); }
+    .search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    .search kbd { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font: 600 11px 'Plus Jakarta Sans'; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; background: var(--paper); }
+    .select { border: 1px solid var(--line); border-radius: 999px; padding: 11px 14px; background: var(--paper); font-size: 13px; font-weight: 600; outline: none; }
+    .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--soft); }
+    .seg button { border: 0; background: transparent; border-radius: 999px; padding: 8px 12px; display: grid; place-items: center; color: var(--muted); }
+    .seg button.on { background: var(--ink); color: #fff; }
+
+    .result-line { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 4px 2px 14px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+    .result-line b { color: var(--ink); }
+    .active-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag-x { border: 1px solid var(--ink); border-radius: 999px; padding: 3px 4px 3px 10px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; background: var(--paper); }
+    .tag-x button { border: 0; background: var(--soft); border-radius: 50%; width: 18px; height: 18px; display: grid; place-items: center; padding: 0; font-size: 12px; line-height: 1; }
+
+    /* ---------- Cards ---------- */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+    .card {
+      text-align: left; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; background: var(--paper);
+      display: flex; flex-direction: column; gap: 14px; transition: transform .15s, border-color .15s, box-shadow .15s; width: 100%;
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--ink); box-shadow: var(--shadow); }
+    .card-top { display: flex; gap: 12px; align-items: center; }
+    .avatar { width: 44px; height: 44px; border-radius: 14px; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 15px; flex: none; letter-spacing: .02em; }
+    .avatar.off { background: var(--soft); color: var(--muted); }
+    .card-name { font-weight: 700; font-size: 15px; line-height: 1.25; }
+    .card-role { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill { font-size: 11.5px; font-weight: 600; padding: 4px 9px; border-radius: 999px; background: var(--soft); color: var(--ink-2); white-space: nowrap; }
+    .pill.outline { background: transparent; border: 1px solid var(--line); }
+    .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+    .dot.on { background: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
+    .dot.off { border: 1.5px solid var(--muted); }
+    .card-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--line); padding-top: 12px; }
+    .note-flag { font-size: 11px; font-weight: 700; color: var(--muted); }
+
+    /* ---------- Table ---------- */
+    .table-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 860px; }
+    th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 700; padding: 12px 14px; background: var(--soft); position: sticky; top: 0; cursor: pointer; user-select: none; white-space: nowrap; }
+    th.sorted { color: var(--ink); }
+    td { padding: 12px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+    tbody tr { cursor: pointer; transition: background .1s; }
+    tbody tr:hover { background: #fafafa; }
+    td.name { font-weight: 700; }
+    td .sub { color: var(--muted); font-size: 12px; font-weight: 500; }
+    td.notes { color: var(--ink-2); max-width: 280px; }
+
+    /* ---------- Drawer ---------- */
+    .scrim { position: fixed; inset: 0; background: rgba(10,10,10,.45); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
+    .scrim.open { opacity: 1; pointer-events: auto; }
+    .drawer {
+      position: fixed; top: 0; right: 0; height: 100%; width: min(440px, 100%); background: var(--paper); z-index: 21;
+      transform: translateX(100%); transition: transform .25s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column;
+      box-shadow: -20px 0 50px -20px rgba(0,0,0,.25);
+    }
+    .drawer.open { transform: none; }
+    .drawer-head { background: var(--ink); color: #fff; padding: 26px 24px 24px; position: relative; }
+    .drawer-head .avatar { background: #fff; color: var(--ink); width: 56px; height: 56px; font-size: 19px; border-radius: 18px; }
+    .drawer-head h3 { margin: 16px 0 4px; font-size: 22px; letter-spacing: -.02em; }
+    .drawer-head .role { color: rgba(255,255,255,.65); font-size: 13px; }
+    .drawer-head .status { color: #fff; margin-top: 12px; }
+    .drawer-head .dot.off { border-color: rgba(255,255,255,.6); }
+    .close { position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: #fff; font-size: 16px; }
+    .drawer-body { padding: 22px 24px 32px; overflow: auto; }
+    .field { display: grid; grid-template-columns: 140px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .field .k { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding-top: 2px; }
+    .field .v { font-weight: 600; }
+    .notes-box { margin-top: 18px; background: var(--gold-soft); border-left: 3px solid var(--gold); border-radius: 12px; padding: 14px 16px; font-size: 14px; line-height: 1.5; }
+    .notes-box .k { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #8a6d24; margin-bottom: 4px; }
+
+    /* ---------- States ---------- */
+    .empty { text-align: center; padding: 64px 20px; border: 1px dashed var(--line); border-radius: var(--radius); color: var(--muted); }
+    .empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 6px; }
+    .skeleton { height: 150px; border-radius: var(--radius); background: linear-gradient(90deg, var(--soft) 25%, #ededed 37%, var(--soft) 63%); background-size: 400% 100%; animation: sk 1.2s ease infinite; }
+    @keyframes sk { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+    .error { border: 1px solid var(--ink); border-radius: var(--radius); padding: 20px; }
+
+    footer { text-align: center; color: var(--muted); font-size: 12px; padding: 8px 0 28px; }
+    footer .brand-dot { margin: 0 6px 2px; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .filters { position: static; }
+      .mobile-toggle { display: inline-flex; }
+      .filters-card { display: none; }
+      .filters.open .filters-card { display: block; margin-bottom: 14px; }
+    }
+    @media (max-width: 720px) {
+      .hero { padding: 20px 16px 76px; }
+      .wrap { padding: 0 16px 40px; }
+      .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat { padding: 14px 16px; }
+      .stat-value { font-size: 24px; }
+      .refresh span { display: none; }
+      .search { min-width: 100%; order: -1; }
+      .search kbd { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .field { grid-template-columns: 110px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-top">
+      <div class="brand"><div class="brand-mark">P</div>PAW <span class="brand-dot"></span> AOG JKT</div>
+      <button class="refresh" id="refresh" title="Reload data from the sheet">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+        <span>Refresh</span>
+      </button>
+    </div>
+    <h1>Volunteer Directory<em>.</em></h1>
+    <p id="subtitle">Loading the latest data from DATABASE AOG JKT…</p>
+  </header>
+
+  <main class="wrap">
+    <section class="stats" id="stats"></section>
+
+    <div class="layout">
+      <aside class="filters" id="filters">
+        <div class="filters-card">
+          <div class="filters-head">
+            <h2>Filters</h2>
+            <button class="link" id="clearAll">Clear all</button>
+          </div>
+          <div id="groups"></div>
+        </div>
+      </aside>
+
+      <section>
+        <div class="toolbar">
+          <label class="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input id="q" type="search" placeholder="Search name, role, notes…" autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+          <button class="select mobile-toggle" id="mobileFilters">Filters <span id="filterCount"></span></button>
+          <select class="select" id="sort" aria-label="Sort">
+            <option value="name">Sort: Name A–Z</option>
+            <option value="role">Sort: Role</option>
+            <option value="church">Sort: Gereja Lokal</option>
+            <option value="status">Sort: Status</option>
+          </select>
+          <div class="seg" role="tablist" aria-label="View">
+            <button id="vGrid" class="on" title="Cards"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></button>
+            <button id="vTable" title="Table"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+          </div>
+        </div>
+
+        <div class="result-line">
+          <div id="count"></div>
+          <div class="active-tags" id="activeTags"></div>
+        </div>
+
+        <div id="list"></div>
+      </section>
+    </div>
+  </main>
+  <footer>PAW AOG JKT <span class="brand-dot"></span> Data from <b>DATABASE AOG JKT</b></footer>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true"></aside>
+
+<script>
+  // ---------- State ----------
+  const GROUPS = [
+    { key: 'status', title: 'Status Pelayanan', get: p => [p.status] },
+    { key: 'pengg',  title: 'Penggembalaan',    get: p => [p.pengg] },
+    { key: 'church', title: 'Gereja Lokal',     get: p => [p.church] },
+    { key: 'role',   title: 'Role',             get: p => p.roles.length ? p.roles : ['No role'] },
+  ];
+  const state = { people: [], q: '', sort: 'name', view: 'grid', sel: { status: new Set(), pengg: new Set(), church: new Set(), role: new Set() } };
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const initials = n => n.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+
+  try { const v = localStorage.getItem('paw-view'); if (v === 'table' || v === 'grid') state.view = v; } catch (e) {}
+
+  // ---------- Data ----------
+  function load() {
+    $('list').innerHTML = '<div class="grid">' + Array(8).fill('<div class="skeleton"></div>').join('') + '</div>';
+    if (window.google && google.script && google.script.run) {
+      google.script.run.withSuccessHandler(onData).withFailureHandler(onError).getVolunteers();
+    } else {
+      setTimeout(() => onData(DEMO), 300); // preview outside Apps Script
+    }
+  }
+  function onData(res) {
+    state.people = res.people || [];
+    const t = new Date(res.updatedAt || Date.now());
+    $('subtitle').textContent = state.people.length + ' volunteers · updated ' +
+      t.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    render();
+  }
+  function onError(err) {
+    $('subtitle').textContent = 'Could not load data';
+    $('list').innerHTML = '<div class="error"><b>Something went wrong.</b><br><span style="color:var(--muted)">' + esc(err && err.message || err) + '</span></div>';
+  }
+
+  // ---------- Filtering ----------
+  function matches(p, skipKey) {
+    for (const g of GROUPS) {
+      if (g.key === skipKey) continue;
+      const set = state.sel[g.key];
+      if (set.size && !g.get(p).some(v => set.has(v))) return false;
+    }
+    if (state.q) {
+      const hay = [p.name, p.role, p.status, p.church, p.pengg, p.notes, p.deptName, p.recommended.join(' ')].join(' ').toLowerCase();
+      if (!state.q.toLowerCase().split(/\s+/).every(w => hay.includes(w))) return false;
+    }
+    return true;
+  }
+  function filtered() {
+    const list = state.people.filter(p => matches(p));
+    const by = state.sort;
+    list.sort((a, b) => by === 'name' ? a.name.localeCompare(b.name)
+      : (String(a[by === 'role' ? 'role' : by]).localeCompare(String(b[by === 'role' ? 'role' : by])) || a.name.localeCompare(b.name)));
+    return list;
+  }
+
+  // ---------- Render ----------
+  function render() {
+    renderStats();
+    renderGroups();
+    renderList();
+    renderActiveTags();
+  }
+
+  function renderStats() {
+    const all = state.people, list = filtered();
+    const active = all.filter(p => p.active).length;
+    const churches = {};
+    all.forEach(p => churches[p.church] = (churches[p.church] || 0) + 1);
+    const topChurch = Object.entries(churches).sort((a, b) => b[1] - a[1])[0] || ['—', 0];
+    const roleCount = new Set(all.flatMap(p => p.roles)).size;
+    $('stats').innerHTML = [
+      ['Total volunteers', all.length, list.length === all.length ? 'All shown' : list.length + ' match filters', false],
+      ['Active', active, Math.round(active / Math.max(all.length, 1) * 100) + '% of total', true],
+      ['Not active', all.length - active, 'Cuti, on hold, out of town', false],
+      ['Largest church', topChurch[1], esc(topChurch[0]) + ' · ' + roleCount + ' roles', false],
+    ].map(([l, v, s, acc]) => '<div class="stat' + (acc ? ' accent' : '') + '"><div class="stat-label">' + l +
+      '</div><div class="stat-value">' + v + '</div><div class="stat-sub">' + s + '</div></div>').join('');
+  }
+
+  function renderGroups() {
+    $('groups').innerHTML = GROUPS.map(g => {
+      // Count each option against the other active filters, so the numbers stay meaningful.
+      const counts = {};
+      state.people.forEach(p => g.get(p).forEach(v => counts[v] = counts[v] || 0));
+      state.people.filter(p => matches(p, g.key)).forEach(p => g.get(p).forEach(v => counts[v]++));
+      const opts = Object.keys(counts).sort((a, b) => g.key === 'status'
+        ? (/^aktif/i.test(b) - /^aktif/i.test(a)) || a.localeCompare(b)
+        : a.localeCompare(b));
+      return '<div class="group"><div class="group-title">' + g.title + '</div><div class="chips">' +
+        opts.map(v => {
+          const on = state.sel[g.key].has(v);
+          return '<button class="chip' + (on ? ' on' : '') + (!counts[v] && !on ? ' zero' : '') +
+            '" data-g="' + g.key + '" data-v="' + esc(v) + '">' + esc(v) + ' <span class="n">' + counts[v] + '</span></button>';
+        }).join('') + '</div></div>';
+    }).join('');
+    const n = GROUPS.reduce((s, g) => s + state.sel[g.key].size, 0);
+    $('filterCount').textContent = n ? '(' + n + ')' : '';
+  }
+
+  function renderActiveTags() {
+    const tags = [];
+    GROUPS.forEach(g => state.sel[g.key].forEach(v => tags.push('<span class="tag-x">' + esc(v) +
+      '<button data-g="' + g.key + '" data-v="' + esc(v) + '" aria-label="Remove">×</button></span>')));
+    $('activeTags').innerHTML = tags.join('');
+  }
+
+  function statusHtml(p) {
+    return '<span class="status"><span class="dot ' + (p.active ? 'on' : 'off') + '"></span>' + esc(p.status) + '</span>';
+  }
+
+  function renderList() {
+    const list = filtered();
+    $('count').innerHTML = 'Showing <b>' + list.length + '</b> of ' + state.people.length + ' volunteers';
+    $('vGrid').classList.toggle('on', state.view === 'grid');
+    $('vTable').classList.toggle('on', state.view === 'table');
+    if (!list.length) {
+      $('list').innerHTML = '<div class="empty"><b>No volunteers match</b>Try removing a filter or changing the search.</div>';
+      return;
+    }
+    if (state.view === 'grid') {
+      $('list').innerHTML = '<div class="grid">' + list.map(p =>
+        '<button class="card" data-id="' + p.id + '">' +
+          '<div class="card-top"><div class="avatar' + (p.active ? '' : ' off') + '">' + esc(initials(p.name)) + '</div>' +
+          '<div><div class="card-name">' + esc(p.name) + '</div><div class="card-role">' + esc(p.role || 'No role') + '</div></div></div>' +
+          '<div class="meta"><span class="pill">' + esc(p.church) + '</span><span class="pill outline">' + esc(p.pengg) + '</span>' +
+          (p.gender ? '<span class="pill outline">' + esc(p.gender) + '</span>' : '') + '</div>' +
+          '<div class="card-foot">' + statusHtml(p) + (p.notes ? '<span class="note-flag">NOTE</span>' : '') + '</div>' +
+        '</button>').join('') + '</div>';
+    } else {
+      const cols = [['name', 'Name'], ['role', 'Role'], ['church', 'Gereja Lokal'], ['pengg', 'Penggembalaan'], ['status', 'Status'], ['notes', 'Notes']];
+      $('list').innerHTML = '<div class="table-wrap"><table><thead><tr>' +
+        cols.map(([k, t]) => '<th data-sort="' + k + '" class="' + (state.sort === k ? 'sorted' : '') + '">' + t + (state.sort === k ? ' ↓' : '') + '</th>').join('') +
+        '</tr></thead><tbody>' + list.map(p =>
+          '<tr data-id="' + p.id + '"><td class="name">' + esc(p.name) + (p.gender ? ' <span class="sub">· ' + esc(p.gender) + '</span>' : '') + '</td>' +
+          '<td>' + esc(p.role) + '</td><td>' + esc(p.church) + '</td><td>' + esc(p.pengg) + '</td><td>' + statusHtml(p) + '</td>' +
+          '<td class="notes">' + esc(p.notes) + '</td></tr>').join('') + '</tbody></table></div>';
+    }
+  }
+
+  // ---------- Drawer ----------
+  function openDrawer(id) {
+    const p = state.people.find(x => String(x.id) === String(id));
+    if (!p) return;
+    const field = (k, v) => v ? '<div class="field"><div class="k">' + k + '</div><div class="v">' + v + '</div></div>' : '';
+    $('drawer').innerHTML =
+      '<div class="drawer-head"><button class="close" id="closeDrawer" aria-label="Close">✕</button>' +
+        '<div class="avatar">' + esc(initials(p.name)) + '</div><h3>' + esc(p.name) + '</h3>' +
+        '<div class="role">' + esc(p.role || 'No role') + '</div>' + statusHtml(p) + '</div>' +
+      '<div class="drawer-body">' +
+        field('Gereja Lokal', esc(p.church)) +
+        field('Penggembalaan', esc(p.pengg)) +
+        field('Gender', esc(p.gender === 'F' ? 'Female' : p.gender === 'M' ? 'Male' : p.gender)) +
+        field('Assigned GL', p.assignedGL ? 'Group ' + esc(p.assignedGL) : '') +
+        field('Can serve at', p.recommended.map(c => '<span class="pill" style="margin:0 4px 4px 0;display:inline-block">' + esc(c) + '</span>').join('')) +
+        field('Other dept.', p.deptLain ? 'Yes' + (p.deptName ? ' · ' + esc(p.deptName) : '') : 'No') +
+        (p.notes ? '<div class="notes-box"><div class="k">Notes</div>' + esc(p.notes) + '</div>' : '') +
+      '</div>';
+    $('drawer').classList.add('open');
+    $('drawer').setAttribute('aria-hidden', 'false');
+    $('scrim').classList.add('open');
+    $('closeDrawer').onclick = closeDrawer;
+  }
+  function closeDrawer() {
+    $('drawer').classList.remove('open');
+    $('drawer').setAttribute('aria-hidden', 'true');
+    $('scrim').classList.remove('open');
+  }
+
+  // ---------- Events ----------
+  document.addEventListener('click', e => {
+    const chip = e.target.closest('[data-g]');
+    if (chip) {
+      const set = state.sel[chip.dataset.g], v = chip.dataset.v;
+      set.has(v) ? set.delete(v) : set.add(v);
+      render();
+      return;
+    }
+    const item = e.target.closest('[data-id]');
+    if (item) { openDrawer(item.dataset.id); return; }
+    const th = e.target.closest('th[data-sort]');
+    if (th) { state.sort = th.dataset.sort === 'notes' ? 'name' : th.dataset.sort; $('sort').value = state.sort; renderList(); }
+  });
+  $('q').addEventListener('input', e => { state.q = e.target.value.trim(); render(); });
+  $('sort').addEventListener('change', e => { state.sort = e.target.value; renderList(); });
+  $('clearAll').onclick = () => { GROUPS.forEach(g => state.sel[g.key].clear()); state.q = ''; $('q').value = ''; render(); };
+  $('vGrid').onclick = () => setView('grid');
+  $('vTable').onclick = () => setView('table');
+  $('mobileFilters').onclick = () => $('filters').classList.toggle('open');
+  $('refresh').onclick = load;
+  $('scrim').onclick = closeDrawer;
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeDrawer();
+    if (e.key === '/' && document.activeElement !== $('q')) { e.preventDefault(); $('q').focus(); }
+  });
+  function setView(v) {
+    state.view = v;
+    try { localStorage.setItem('paw-view', v); } catch (e) {}
+    renderList();
+  }
+
+  // ---------- Demo data (only used when opened outside Apps Script) ----------
+  const DEMO = (() => {
+    const first = ['Andre', 'Bella', 'Clara', 'Daniel', 'Elisa', 'Felix', 'Grace', 'Hana', 'Ivan', 'Joy', 'Kevin', 'Laura', 'Mario', 'Nadia', 'Oscar', 'Priska', 'Rafael', 'Sarah', 'Timo', 'Vania', 'Willy', 'Yosua', 'Zara', 'Bima'];
+    const last = ['Santoso', 'Wijaya', 'Halim', 'Tanoto', 'Gunawan', 'Lim', 'Pratama', 'Susanto'];
+    const roles = ['Worship Leader', 'GL, Singer', 'Singer', 'Singer', 'Keyboardist', 'Drummer', 'Bassist', 'Guitarist', 'Synthe', 'Violinist'];
+    const status = ['Aktif', 'Aktif', 'Aktif', 'Aktif', 'Active – With Notes', 'Cuti - Intern/Kelas Sabtu', 'On Hold - Pengembalaan', 'Tidak di Jakarta'];
+    const church = ['Central Park', 'Central Park', 'Puri', 'Gandaria City', 'Pluit'];
+    const pengg = ['AOG Youth', 'AOG Youth', 'AOG Youth', 'AOG Teens', 'YA'];
+    return { updatedAt: new Date().toISOString(), people: first.map((f, i) => {
+      const role = roles[i % roles.length], st = status[(i * 3) % status.length];
+      return { id: i + 3, name: f + ' ' + last[i % last.length], role, roles: role.split(',').map(s => s.trim()),
+        gender: i % 2 ? 'F' : 'M', status: st, active: /^(aktif|active)/i.test(st), church: church[i % church.length],
+        pengg: pengg[i % pengg.length], assignedGL: String(1 + i % 4), recommended: ['CP', 'GC', 'Puri', 'Pluit'].slice(0, 1 + i % 4),
+        notes: i % 4 === 0 ? 'Bisa melayani 2x sebulan.' : '', deptLain: i % 5 === 0, deptName: i % 5 === 0 ? 'Multimedia' : '' };
+    }) };
+  })();
+
+  load();
+</script>
+</body>
+</html>
