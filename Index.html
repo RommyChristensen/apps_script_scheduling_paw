@@ -230,6 +230,7 @@
       .boxes { grid-template-columns: repeat(2, 1fr); grid-template-rows: none; grid-auto-flow: row; gap: 10px; }
       .box { padding: 10px 14px; }
       .box .bn { font-size: 22px; }
+      .box .hint { display: none; }
       .gl-select { width: 100%; }
       .dash-head > div:last-child { width: 100%; }
       .refresh span { display: none; }
@@ -438,9 +439,10 @@
       const active = people.filter(p => p.active).length;
       const tags = tagsFor(test);
       const on = tags.length > 0 && sameSet(state.sel.role, tags);
-      const sub = people.length ? active + ' aktif' + (hint ? ' · ' + hint : '') : (hint || 'Belum ada');
+      const hintHtml = hint ? '<span class="hint">' + (people.length ? ' · ' : '') + esc(hint) + '</span>' : '';
+      const sub = (people.length ? active + ' aktif' : (hint ? '' : 'Belum ada')) + hintHtml;
       return '<button class="box' + (on ? ' on' : '') + (people.length ? '' : ' zero') + '" data-box="' + i + '">' +
-        '<div><div class="bl">' + label + '</div><div class="bs">' + esc(sub) + '</div></div>' +
+        '<div><div class="bl">' + label + '</div><div class="bs">' + sub + '</div></div>' +
         '<div class="bn">' + people.length + '</div></button>';
     }).join('');
   }
