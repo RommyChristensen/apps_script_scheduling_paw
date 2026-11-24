@@ -33,54 +33,69 @@
     button { cursor: pointer; }
 
     /* ---------- Header ---------- */
-    .hero {
-      background: var(--ink);
-      color: #fff;
-      padding: 28px 32px 84px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::after { /* soft gold glow, very subtle */
-      content: ''; position: absolute; right: -120px; top: -160px;
-      width: 420px; height: 420px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(201,165,75,.22), transparent 65%);
-      pointer-events: none;
-    }
-    .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 1320px; margin: 0 auto; }
+    .top { max-width: 1320px; margin: 0 auto; padding: 26px 32px 0; }
+    .top-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
     .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; font-size: 13px; text-transform: uppercase; }
-    .brand-mark { width: 30px; height: 30px; border-radius: 9px; background: #fff; color: var(--ink); display: grid; place-items: center; font-weight: 800; font-size: 14px; }
+    .brand-mark { width: 30px; height: 30px; border-radius: 9px; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 14px; }
     .brand-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); display: inline-block; margin: 0 2px 2px; }
     .refresh {
-      border: 1px solid rgba(255,255,255,.22); background: transparent; color: #fff;
+      border: 1px solid var(--line); background: var(--paper); color: var(--ink);
       border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 600; display: inline-flex; gap: 8px; align-items: center;
-      transition: background .15s;
+      transition: border-color .15s;
     }
-    .refresh:hover { background: rgba(255,255,255,.08); }
-    .hero h1 { max-width: 1320px; margin: 28px auto 6px; font-size: clamp(30px, 5vw, 46px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
-    .hero h1 em { font-style: normal; color: var(--gold); }  /* only the final dot */
-    .hero p { max-width: 1320px; margin: 0 auto; color: rgba(255,255,255,.62); font-size: 14px; }
+    .refresh:hover { border-color: var(--ink); }
+    .top h1 { margin: 30px 0 6px; font-size: clamp(24px, 3.4vw, 36px); font-weight: 800; letter-spacing: -.01em; line-height: 1.1; text-transform: uppercase; }
+    .top h1 em { font-style: normal; color: var(--gold); }
+    .top .sub { margin: 0; color: var(--muted); font-size: 15px; }
+
+    /* The three black pills */
+    .pills { display: flex; gap: 14px; margin-top: 24px; flex-wrap: wrap; }
+    .pill-stat {
+      flex: 1 1 0; max-width: 360px; min-width: 230px; border: 0; border-radius: 999px;
+      background: var(--ink); color: #fff; padding: 12px 12px 12px 26px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .pill-stat:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -12px rgba(0,0,0,.45); }
+    .pill-stat .l { font-weight: 800; font-size: 14px; letter-spacing: .05em; text-transform: uppercase; }
+    .pill-stat .v {
+      background: #fff; color: var(--ink); border-radius: 999px; min-width: 56px; height: 42px; padding: 0 14px;
+      display: grid; place-items: center; font-weight: 800; font-size: 19px;
+    }
+    .pill-stat.aktif .v { box-shadow: inset 0 0 0 2px var(--gold); }
+    .pill-stat.nonaktif .v { background: #d9d9d9; }
+    .pill-stat.on { box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--gold); }
+
+    /* Dashboard */
+    .dash-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin: 36px 0 14px; }
+    .dash-head h2 { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .dash-head .upd { margin-top: 3px; font-size: 13px; color: var(--muted); font-style: italic; }
+    .gl-select {
+      appearance: none; -webkit-appearance: none; border: 1px solid var(--line); background-color: var(--soft);
+      border-radius: 999px; padding: 10px 40px 10px 18px; font-size: 13px; font-weight: 700; outline: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230a0a0a' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 16px center;
+    }
+    .gl-select:focus, .gl-select:hover { border-color: var(--ink); }
+    .gl-select.set { background-color: var(--ink); color: #fff; border-color: var(--ink);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c9a54b' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+    .boxes { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, auto); grid-auto-flow: column; gap: 12px 18px; margin-bottom: 34px; }
+    .box {
+      border: 1.5px solid #cfcfcf; border-radius: 14px; background: var(--paper); padding: 12px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left;
+      transition: border-color .15s, background .15s, color .15s, transform .15s;
+    }
+    .box:hover { border-color: var(--ink); transform: translateY(-1px); }
+    .box .bl { font-weight: 700; font-size: 15px; }
+    .box .bs { font-size: 12px; color: var(--muted); margin-top: 1px; font-weight: 500; }
+    .box .bn { font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
+    .box.zero .bn { color: #c4c4c4; }
+    .box.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .box.on .bs { color: rgba(255,255,255,.6); }
+    .box.on .bn { color: var(--gold); }
 
     /* ---------- Layout ---------- */
-    .wrap { max-width: 1320px; margin: -56px auto 0; padding: 0 32px 48px; position: relative; z-index: 1; }
-
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
-    .stat { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); }
-    .stat-label { color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
-    .stat-value { font-size: 30px; font-weight: 800; letter-spacing: -.02em; margin-top: 4px; }
-    .stat-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .stat.accent { border-color: var(--ink); }
-    .inst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 8px; margin-top: 6px; }
-    .inst {
-      display: flex; justify-content: space-between; align-items: baseline; gap: 6px;
-      border: 0; background: var(--soft); border-radius: 8px; padding: 4px 8px;
-      font-size: 11.5px; font-weight: 600; color: var(--muted); transition: background .15s, color .15s;
-    }
-    .inst b { color: var(--ink); font-weight: 800; }
-    .inst:not(:disabled):hover { background: #ebebeb; color: var(--ink); }
-    .inst.on, .inst.on:hover { background: var(--ink); color: #fff; }
-    .inst.on b { color: var(--gold); }
-    .inst:disabled { cursor: default; }
-    .stat.accent .stat-value::after { content: ''; display: inline-block; width: 8px; height: 8px; margin-left: 8px; border-radius: 50%; background: var(--gold); vertical-align: middle; }
+    .wrap { max-width: 1320px; margin: 0 auto; padding: 0 32px 48px; }
 
     .layout { display: grid; grid-template-columns: 270px 1fr; gap: 26px; align-items: start; }
 
@@ -147,7 +162,8 @@
     .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
     .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
     .dot.on { background: var(--gold); box-shadow: 0 0 0 3px var(--gold-soft); }
-    .dot.off { border: 1.5px solid var(--muted); }
+    .dot.off { background: #b3b3b3; }
+    .status.off { color: var(--muted); }
     .card-foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--line); padding-top: 12px; }
     .note-flag { font-size: 11px; font-weight: 700; color: var(--muted); }
 
@@ -177,7 +193,8 @@
     .drawer-head h3 { margin: 16px 0 4px; font-size: 22px; letter-spacing: -.02em; }
     .drawer-head .role { color: rgba(255,255,255,.65); font-size: 13px; }
     .drawer-head .status { color: #fff; margin-top: 12px; }
-    .drawer-head .dot.off { border-color: rgba(255,255,255,.6); }
+    .drawer-head .status.off { color: rgba(255,255,255,.6); }
+    .drawer-head .dot.off { background: rgba(255,255,255,.45); }
     .close { position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: #fff; font-size: 16px; }
     .drawer-body { padding: 22px 24px 32px; overflow: auto; }
     .field { display: grid; grid-template-columns: 140px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
@@ -205,12 +222,16 @@
       .filters.open .filters-card { display: block; margin-bottom: 14px; }
     }
     @media (max-width: 720px) {
-      .hero { padding: 20px 16px 76px; }
+      .top { padding: 18px 16px 0; }
+      .top h1 { margin-top: 22px; }
       .wrap { padding: 0 16px 40px; }
-      .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .stat { padding: 14px 16px; }
-      .stat-value { font-size: 24px; }
-      .stat:nth-child(3), .stat.musicians { grid-column: 1 / -1; }
+      .pills { gap: 10px; }
+      .pill-stat { flex: 1 1 100%; max-width: none; padding-left: 22px; }
+      .boxes { grid-template-columns: repeat(2, 1fr); grid-template-rows: none; grid-auto-flow: row; gap: 10px; }
+      .box { padding: 10px 14px; }
+      .box .bn { font-size: 22px; }
+      .gl-select { width: 100%; }
+      .dash-head > div:last-child { width: 100%; }
       .refresh span { display: none; }
       .search { min-width: 100%; order: -1; }
       .search kbd { display: none; }
@@ -220,20 +241,34 @@
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-top">
+  <header class="top">
+    <div class="top-bar">
       <div class="brand"><div class="brand-mark">P</div>PAW <span class="brand-dot"></span> AOG JKT</div>
       <button class="refresh" id="refresh" title="Reload data from the sheet">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
         <span>Refresh</span>
       </button>
     </div>
-    <h1>Volunteer Directory<em>.</em></h1>
-    <p id="subtitle">Loading the latest data from DATABASE AOG JKT…</p>
+    <h1>Praise and Worship Database<em>.</em></h1>
+    <p class="sub">Dashboard database PAW AOG Central Park, Gandaria City, Puri, Pluit</p>
+    <div class="pills" id="pills"></div>
   </header>
 
   <main class="wrap">
-    <section class="stats" id="stats"></section>
+    <section>
+      <div class="dash-head">
+        <div>
+          <h2>Dashboard</h2>
+          <div class="upd" id="updated">Loading…</div>
+        </div>
+        <div>
+          <select class="gl-select" id="gl" aria-label="Filter Gereja Lokal">
+            <option value="">Semua Gereja Lokal</option>
+          </select>
+        </div>
+      </div>
+      <div class="boxes" id="boxes"></div>
+    </section>
 
     <div class="layout">
       <aside class="filters" id="filters">
@@ -288,7 +323,7 @@
     { key: 'church', title: 'Gereja Lokal',     get: p => [p.church] },
     { key: 'role',   title: 'Role',             get: p => p.roles.length ? p.roles : ['No role'] },
   ];
-  const state = { people: [], q: '', sort: 'name', view: 'grid', sel: { status: new Set(), pengg: new Set(), church: new Set(), role: new Set() } };
+  const state = { gl: '', people: [], q: '', sort: 'name', view: 'grid', sel: { status: new Set(), pengg: new Set(), church: new Set(), role: new Set() } };
   const $ = id => document.getElementById(id);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const initials = n => n.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
@@ -307,12 +342,17 @@
   function onData(res) {
     state.people = res.people || [];
     const t = new Date(res.updatedAt || Date.now());
-    $('subtitle').textContent = state.people.length + ' volunteers · updated ' +
-      t.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    $('updated').textContent = 'Updated per ' + t.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) +
+      ', ' + t.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    // Gereja Lokal options for the dashboard filter.
+    const churches = [...new Set(state.people.map(p => p.church))].sort();
+    $('gl').innerHTML = '<option value="">Semua Gereja Lokal</option>' +
+      churches.map(c => '<option' + (c === state.gl ? ' selected' : '') + '>' + esc(c) + '</option>').join('');
+    if (churches.indexOf(state.gl) < 0) state.gl = '';
     render();
   }
   function onError(err) {
-    $('subtitle').textContent = 'Could not load data';
+    $('updated').textContent = 'Could not load data';
     $('list').innerHTML = '<div class="error"><b>Something went wrong.</b><br><span style="color:var(--muted)">' + esc(err && err.message || err) + '</span></div>';
   }
 
@@ -346,39 +386,77 @@
   }
 
   function renderStats() {
-    const all = state.people, list = filtered();
-    const active = all.filter(p => p.active).length;
-    $('stats').innerHTML = [
-      ['Total volunteers', all.length, list.length === all.length ? 'All shown' : list.length + ' match filters', false],
-      ['Active', active, Math.round(active / Math.max(all.length, 1) * 100) + '% of total', true],
-      ['Not active', all.length - active, 'Cuti, on hold, out of town', false],
-    ].map(([l, v, s, acc]) => '<div class="stat' + (acc ? ' accent' : '') + '"><div class="stat-label">' + l +
-      '</div><div class="stat-value">' + v + '</div><div class="stat-sub">' + s + '</div></div>').join('') +
-      musiciansCard(all);
+    renderPills();
+    renderBoxes();
   }
 
-  // Musicians per instrument. Someone with two instruments counts for both,
-  // but only once in the total.
-  const INSTRUMENTS = [
-    ['Keys', /key|piano/i], ['Synth', /synth/i], ['Guitar', /guitar/i],
-    ['Bass', /bass/i], ['Drum', /drum/i], ['Violin', /violin/i],
+  // ---- The three black pills (all churches). Click = filter the list by status. ----
+  const statusesWhere = active => [...new Set(state.people.filter(p => p.active === active).map(p => p.status))];
+  const sameSet = (set, arr) => set.size === arr.length && arr.every(v => set.has(v));
+  function renderPills() {
+    const all = state.people;
+    const active = all.filter(p => p.active).length;
+    const selActive = all.length && sameSet(state.sel.status, statusesWhere(true));
+    const selInactive = all.length && sameSet(state.sel.status, statusesWhere(false));
+    const pill = (cls, label, n, key, on, title) =>
+      '<button class="pill-stat ' + cls + (on ? ' on' : '') + '" data-pill="' + key + '" title="' + title + '">' +
+      '<span class="l">' + label + '</span><span class="v">' + n + '</span></button>';
+    $('pills').innerHTML =
+      pill('', 'Jml Volunteer', all.length, 'all', false, 'Show everyone') +
+      pill('aktif', 'Jml Aktif', active, 'active', selActive, 'Show only active volunteers') +
+      pill('nonaktif', 'Jmlh Non Aktif', all.length - active, 'inactive', selInactive, 'Show cuti / on hold / not in Jakarta');
+  }
+  function onPill(key) {
+    const target = key === 'all' ? [] : statusesWhere(key === 'active');
+    const same = sameSet(state.sel.status, target);
+    state.sel.status.clear();
+    if (!same) target.forEach(v => state.sel.status.add(v));
+    render();
+  }
+
+  // ---- Dashboard boxes, counted from the Role column ("GL, Singer", "Keyboardist, MD", ...) ----
+  const BOXES = [
+    ['WL',           'Worship Leader',  t => /worship leader|^wl$/i.test(t)],
+    ['Singers',      '',                t => /^singers?$|^vocal/i.test(t)],
+    ['Group Leader', '',                t => /^gl$|group leader/i.test(t)],
+    ['SD',           'Singer Director', t => /^sd$|singer director/i.test(t)],
+    ['MD',           'Music Director',  t => /^md$|music director/i.test(t)],
+    ['Lead Keys',    '',                t => /key|piano/i.test(t) && !/synth/i.test(t)],
+    ['Synthe',       '',                t => /synth/i.test(t)],
+    ['Guitarist',    '',                t => /guitar/i.test(t)],
+    ['Bassist',      '',                t => /bass/i.test(t)],
+    ['Drummer',      '',                t => /drum/i.test(t)],
+    ['Violinist',    '',                t => /violin/i.test(t)],
+    ['Saxophone',    '',                t => /sax/i.test(t)],
   ];
-  function musiciansCard(all) {
-    const musicians = new Set();
-    const rows = INSTRUMENTS.map(([label, re]) => {
-      const people = all.filter(p => p.roles.some(r => re.test(r)));
-      people.forEach(p => musicians.add(p.id));
-      // Role tags in the sheet for this instrument, e.g. "Keyboardist".
-      const tags = [...new Set(all.flatMap(p => p.roles).filter(r => re.test(r)))];
-      const on = tags.length === 1 && state.sel.role.has(tags[0]);
-      const attrs = tags.length === 1
-        ? ' data-g="role" data-v="' + esc(tags[0]) + '" title="Filter: ' + esc(tags[0]) + '"' : '';
-      return '<button class="inst' + (on ? ' on' : '') + '"' + attrs + (tags.length === 1 ? '' : ' disabled') + '>' +
-        '<span>' + label + '</span><b>' + people.length + '</b></button>';
-    });
-    return '<div class="stat musicians"><div class="stat-label">Musicians</div>' +
-      '<div class="stat-value">' + musicians.size + '</div>' +
-      '<div class="inst-grid">' + rows.join('') + '</div></div>';
+  const tagsFor = test => [...new Set(state.people.flatMap(p => p.roles).filter(test))];
+  function renderBoxes() {
+    const pool = state.people.filter(p => !state.gl || p.church === state.gl);
+    $('gl').classList.toggle('set', !!state.gl);
+    $('boxes').innerHTML = BOXES.map(([label, hint, test], i) => {
+      const people = pool.filter(p => p.roles.some(test));
+      const active = people.filter(p => p.active).length;
+      const tags = tagsFor(test);
+      const on = tags.length > 0 && sameSet(state.sel.role, tags);
+      const sub = people.length ? active + ' aktif' + (hint ? ' · ' + hint : '') : (hint || 'Belum ada');
+      return '<button class="box' + (on ? ' on' : '') + (people.length ? '' : ' zero') + '" data-box="' + i + '">' +
+        '<div><div class="bl">' + label + '</div><div class="bs">' + esc(sub) + '</div></div>' +
+        '<div class="bn">' + people.length + '</div></button>';
+    }).join('');
+  }
+  // Clicking a box shows those people in the list below (same church as the dashboard filter).
+  function onBox(i) {
+    const tags = tagsFor(BOXES[i][2]);
+    if (!tags.length) return;
+    const same = sameSet(state.sel.role, tags);
+    state.sel.role.clear();
+    state.sel.church.clear();
+    if (!same) {
+      tags.forEach(t => state.sel.role.add(t));
+      if (state.gl) state.sel.church.add(state.gl);
+    }
+    render();
+    if (!same) document.querySelector('.layout').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function renderGroups() {
@@ -409,7 +487,7 @@
   }
 
   function statusHtml(p) {
-    return '<span class="status"><span class="dot ' + (p.active ? 'on' : 'off') + '"></span>' + esc(p.status) + '</span>';
+    return '<span class="status' + (p.active ? '' : ' off') + '"><span class="dot ' + (p.active ? 'on' : 'off') + '"></span>' + esc(p.status) + '</span>';
   }
 
   function renderList() {
@@ -472,6 +550,10 @@
 
   // ---------- Events ----------
   document.addEventListener('click', e => {
+    const pill = e.target.closest('[data-pill]');
+    if (pill) { onPill(pill.dataset.pill); return; }
+    const box = e.target.closest('[data-box]');
+    if (box) { onBox(Number(box.dataset.box)); return; }
     const chip = e.target.closest('[data-g]');
     if (chip) {
       const set = state.sel[chip.dataset.g], v = chip.dataset.v;
@@ -491,6 +573,7 @@
   $('vTable').onclick = () => setView('table');
   $('mobileFilters').onclick = () => $('filters').classList.toggle('open');
   $('refresh').onclick = load;
+  $('gl').addEventListener('change', e => { state.gl = e.target.value; renderBoxes(); });
   $('scrim').onclick = closeDrawer;
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeDrawer();
@@ -506,7 +589,7 @@
   const DEMO = (() => {
     const first = ['Andre', 'Bella', 'Clara', 'Daniel', 'Elisa', 'Felix', 'Grace', 'Hana', 'Ivan', 'Joy', 'Kevin', 'Laura', 'Mario', 'Nadia', 'Oscar', 'Priska', 'Rafael', 'Sarah', 'Timo', 'Vania', 'Willy', 'Yosua', 'Zara', 'Bima'];
     const last = ['Santoso', 'Wijaya', 'Halim', 'Tanoto', 'Gunawan', 'Lim', 'Pratama', 'Susanto'];
-    const roles = ['Worship Leader', 'GL, Singer', 'Singer', 'Singer', 'Keyboardist', 'Drummer', 'Bassist', 'Guitarist', 'Synthe', 'Violinist'];
+    const roles = ['Worship Leader', 'GL, Singer', 'Singer, SD', 'Singer', 'Keyboardist, MD', 'Drummer', 'Bassist', 'Guitarist', 'Synthe', 'Violinist', 'Keyboardist'];
     const status = ['Aktif', 'Aktif', 'Aktif', 'Aktif', 'Active – With Notes', 'Cuti - Intern/Kelas Sabtu', 'On Hold - Pengembalaan', 'Tidak di Jakarta'];
     const church = ['Central Park', 'Central Park', 'Puri', 'Gandaria City', 'Pluit'];
     const pengg = ['AOG Youth', 'AOG Youth', 'AOG Youth', 'AOG Teens', 'YA'];
